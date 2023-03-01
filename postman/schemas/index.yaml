@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  title: Todo Application
+  description: API documentation for Todo Application
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /todos:
+    get:
+      summary: Get all Todos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+    post:
+      summary: Create a Todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+  /todos/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+        description: Numeric ID of the Todo to retrieve or update.
+    get:
+      summary: Get a Todo by ID
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Not Found
+    put:
+      summary: Update a Todo by ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+        '404':
+          description: Not Found
+    delete:
+      summary: Delete a Todo by ID
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        completed:
+          type: boolean
+      required:
+        - title
+        - completed
